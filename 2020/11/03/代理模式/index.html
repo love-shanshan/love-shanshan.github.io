@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>代理模式 - Nyima&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Nyima</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                Links
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/3.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-11-03 10:00">
+      November 3, 2020 am
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h1><h1 id="一、概念"><a href="#一、概念" class="headerlink" title="一、概念"></a>一、概念</h1><h2 id="1、定义"><a href="#1、定义" class="headerlink" title="1、定义"></a>1、定义</h2><p>代理模式给某一个对象提供一个<strong>代理对象</strong>，并由代理对象控制对原对象的引用。同时代理对象可以调用被代理对象的方法，并对其进行增强。可以总结为<strong>代理对象 = 增强代码 + 目标对象（原对象）</strong></p>
+<h2 id="2、举例"><a href="#2、举例" class="headerlink" title="2、举例"></a>2、举例</h2><p>疫情期间很多公司破产，导致很多劳动者都失业了，小文也是其中之一。公司拖欠小文的工资一直未能下发。小文希望通过劳动仲裁来要回属于自己的工资，所以和公司打官司。基本的仲裁步骤小文都懂，大概有：准备劳动仲裁申请书、收集证据、提交申请、开庭答辩等等，但是小文是第一次进行劳动仲裁，对这些具体的操作没什么经验，同时自己在这期间又有了新的工作，很难抽出时间去进行劳动仲裁。这时小文就掏钱找了一位律师，这位<strong>律师就相当于代理对象</strong>。律师替小文准备仲裁申请、提交申请、开庭后帮小文进行辩论阐述等等，<strong>律师不仅仅是按着仲裁需要的步骤做了，而且每一步都做的比小文更好，这就是对被代理对象方法的增强</strong></p>
+<h2 id="3、场景"><a href="#3、场景" class="headerlink" title="3、场景"></a>3、场景</h2><p>面向切面编程中就用到了代理模式，具体的内容后面有机会再详细介绍吧</p>
+<h1 id="二、静态代理"><a href="#二、静态代理" class="headerlink" title="二、静态代理"></a>二、静态代理</h1><h2 id="1、代码"><a href="#1、代码" class="headerlink" title="1、代码"></a>1、代码</h2><p>我们用静态代理来实现上面例子</p>
+<p><strong>定义接口</strong>:无论是谁进行劳动仲裁，都需要按着这个流程执行</p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ArbitrationStep</span> </span>&#123;
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 准备仲裁申请</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span></span>;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 收集证据</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span></span>;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 开庭答辩</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre>
+
+
+
+<p><strong>定义被代理类</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XiaoWen</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ArbitrationStep</span> </span>&#123;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"准备仲裁申请！"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"收集证据！"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"开庭答辩！"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>定义代理类</strong></p>
+<p>可以看到代理类中不仅执行了被代理的方法，同时还对其方法进行了一定的增强</p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LawyerProxy</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ArbitrationStep</span> </span>&#123;
+   <span class="hljs-keyword">private</span> XiaoWen xiaoWen;
+
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LawyerProxy</span><span class="hljs-params">(XiaoWen xiaoWen)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>.xiaoWen = xiaoWen;
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"律师听取小文的想法"</span>);
+      xiaoWen.prepareApp();
+      System.out.println(<span class="hljs-string">"律师对申请进行修改"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span> </span>&#123;
+      xiaoWen.collectEvi();
+      System.out.println(<span class="hljs-string">"律师对证据进行整理"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span> </span>&#123;
+      xiaoWen.debate();
+      System.out.println(<span class="hljs-string">"律师更详细的阐述"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>测试类</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tribunal</span> </span>&#123;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+      XiaoWen xiaoWen = <span class="hljs-keyword">new</span> XiaoWen();
+      System.out.println(<span class="hljs-string">"小文委托律师帮忙进行劳动仲裁"</span>);
+      LawyerProxy proxy = <span class="hljs-keyword">new</span> LawyerProxy(xiaoWen);
+      System.out.println(<span class="hljs-string">"-------第一步-------"</span>);
+      proxy.prepareApp();
+
+      System.out.println(<span class="hljs-string">"-------第二步-------"</span>);
+      proxy.collectEvi();
+
+      System.out.println(<span class="hljs-string">"-------第三步-------"</span>);
+      proxy.debate();
+      System.out.println();
+
+      System.out.println(<span class="hljs-string">"仲裁结束"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>运行结果</strong></p>
+<pre><code class="hljs java">小文委托律师帮忙进行劳动仲裁
+-------第一步-------
+律师听取小文的想法
+准备仲裁申请！
+律师对申请进行修改
+-------第二步-------
+收集证据！
+律师对证据进行整理
+-------第三步-------
+开庭答辩！
+律师更详细的阐述
+
+仲裁结束</code></pre>
+
+
+
+<h2 id="2、总结"><a href="#2、总结" class="headerlink" title="2、总结"></a>2、总结</h2><p>通过上面的代码可以总结出静态代理的步骤</p>
+<ul>
+<li>定义接口<ul>
+<li>被代理类和代理类<strong>都需要实现该接口</strong></li>
+</ul>
+</li>
+<li>定义被代理类<ul>
+<li>实现上面定义的接口</li>
+</ul>
+</li>
+<li>定义代理类<ul>
+<li>实现上面定义的接口</li>
+<li>创建被代理对象<ul>
+<li>调用方法时需要<strong>调用被代理对象的方法，同时自己可以对方法进行增加</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201013134339.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="3、存在的问题"><a href="#3、存在的问题" class="headerlink" title="3、存在的问题"></a>3、存在的问题</h2><p>如果一个类需要被代理，就得去创建一个代理类。如果被代理的类过多，这样就需要手动创建很多代理类。为了解决这个问题，便有了动态代理</p>
+<h1 id="三、基于Java反射的动态代理"><a href="#三、基于Java反射的动态代理" class="headerlink" title="三、基于Java反射的动态代理"></a>三、基于Java反射的动态代理</h1><h2 id="1、反射与类加载"><a href="#1、反射与类加载" class="headerlink" title="1、反射与类加载"></a>1、反射与类加载</h2><p>在这之前我们需要先了解<a href="https://nyimac.gitee.io/2020/10/13/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/#%E4%BA%8C%E3%80%81%E5%8F%8D%E5%B0%84"><strong>Java反射</strong></a>与<a href="https://nyimac.gitee.io/2020/06/08/JVM%E5%AD%A6%E4%B9%A0/#4%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E9%98%B6%E6%AE%B5"><strong>类加载</strong></a></p>
+<p>同时还可以参考<a href="https://www.zhihu.com/question/20794107/answer/658139129" target="_blank" rel="noopener"><strong>知乎回答——Java 动态代理作用是什么？</strong></a>(膜拜大佬啊！)</p>
+<h2 id="2、使用反射实现动态代理"><a href="#2、使用反射实现动态代理" class="headerlink" title="2、使用反射实现动态代理"></a>2、使用反射实现动态代理</h2><p>接着上面的劳动仲裁的例子，不过这次我们用动态代理去实现</p>
+<p><strong>但是需要用到Proxy类的两个静态方法</strong></p>
+<ul>
+<li><strong>getProxyClass</strong><ul>
+<li>这个方法， 会从你传入的接口Class中，“拷贝”类结构信息到一个新的Class对象中，但<strong>新的Class对象带有构造器，是可以创建对象的</strong></li>
+</ul>
+</li>
+<li><strong>newProxyInstance</strong>（一般直接用这个）<ul>
+<li>封装了得到代理类Class对象、构造函数等细节，直接返回了代理对象</li>
+</ul>
+</li>
+</ul>
+<p><strong>接口和被代理类不变</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ArbitrationStep</span> </span>&#123;
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 准备仲裁申请</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span></span>;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 收集证据</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span></span>;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 开庭答辩</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XiaoWen</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ArbitrationStep</span> </span>&#123;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"准备仲裁申请！"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"收集证据！"</span>);
+   &#125;
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"开庭答辩！"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<h3 id="通过反射获得代理对象"><a href="#通过反射获得代理对象" class="headerlink" title="通过反射获得代理对象"></a>通过反射获得代理对象</h3><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tribunal2</span> </span>&#123;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException </span>&#123;
+      <span class="hljs-comment">// 获取代理类的Class对象</span>
+      Class&lt;?&gt; proxyClazz = Proxy.getProxyClass(ArbitrationStep<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getClassLoader</span>(), <span class="hljs-title">ArbitrationStep</span>.<span class="hljs-title">class</span>)</span>;
+
+      <span class="hljs-comment">// 获得构造函数</span>
+      Constructor&lt;?&gt; constructor = proxyClazz.getConstructor(InvocationHandler<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+      <span class="hljs-comment">// 创建代理对象</span>
+      ArbitrationStep lawyerProxy = (ArbitrationStep) constructor.newInstance(<span class="hljs-keyword">new</span> InvocationHandler() &#123;
+         <span class="hljs-meta">@Override</span>
+         <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+            <span class="hljs-comment">// 创建被代理对象，用于调用方法</span>
+            XiaoWen xiaoWen = <span class="hljs-keyword">new</span> XiaoWen();
+             
+            <span class="hljs-comment">// 通过invoke方法调用了被代理对象的方法</span>
+            Object invoke = method.invoke(xiaoWen, args);
+             
+            <span class="hljs-comment">// 每个步骤都让律师帮忙处理</span>
+            System.out.println(<span class="hljs-string">"律师帮忙处理！"</span>);
+            <span class="hljs-keyword">return</span> invoke;
+         &#125;
+      &#125;);
+
+      <span class="hljs-comment">// 通过代理对象调用方法</span>
+      System.out.println(<span class="hljs-string">"-------第一步-------"</span>);
+      lawyerProxy.prepareApp();
+
+      System.out.println(<span class="hljs-string">"-------第二步-------"</span>);
+      lawyerProxy.collectEvi();
+
+      System.out.println(<span class="hljs-string">"-------第三步-------"</span>);
+      lawyerProxy.debate();
+      System.out.println();
+
+      System.out.println(<span class="hljs-string">"仲裁结束"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>运行结果</strong></p>
+<pre><code class="hljs java">-------第一步-------
+准备仲裁申请！
+律师帮忙处理！
+-------第二步-------
+收集证据！
+律师帮忙处理！
+-------第三步-------
+开庭答辩！
+律师帮忙处理！
+
+仲裁结束</code></pre>
+
+
+
+<h3 id="自己封装获得代理对象的方法"><a href="#自己封装获得代理对象的方法" class="headerlink" title="自己封装获得代理对象的方法"></a>自己封装获得代理对象的方法</h3><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Tribunal3</span> </span>&#123;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException </span>&#123;
+      XiaoWen xiaoWen = <span class="hljs-keyword">new</span> XiaoWen();
+      <span class="hljs-comment">// 获得代理对象</span>
+      ArbitrationStep lawyerProxy = (ArbitrationStep) getProxy(xiaoWen);
+       
+      <span class="hljs-comment">// 通过代理对象调用方法</span>
+      System.out.println(<span class="hljs-string">"-------第一步-------"</span>);
+      lawyerProxy.prepareApp();
+
+      System.out.println(<span class="hljs-string">"-------第二步-------"</span>);
+      lawyerProxy.collectEvi();
+
+      System.out.println(<span class="hljs-string">"-------第三步-------"</span>);
+      lawyerProxy.debate();
+      System.out.println();
+
+      System.out.println(<span class="hljs-string">"仲裁结束"</span>);
+   &#125;
+
+   <span class="hljs-comment">// 该方法返回一个代理对象</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">getProxy</span><span class="hljs-params">(Object target)</span> <span class="hljs-keyword">throws</span> NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException </span>&#123;
+      <span class="hljs-comment">// target为被代理对象，得到其代理类的Class对象</span>
+      Class&lt;?&gt; proxyClazz = Proxy.getProxyClass(target.getClass().getClassLoader(), target.getClass().getInterfaces());
+
+      <span class="hljs-comment">// 获得构造函数</span>
+      Constructor&lt;?&gt; constructor = proxyClazz.getConstructor(InvocationHandler<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+      <span class="hljs-comment">// 获得代理对象</span>
+      Object targetProxy = constructor.newInstance(<span class="hljs-keyword">new</span> InvocationHandler() &#123;
+         <span class="hljs-meta">@Override</span>
+         <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+            Object invoke = method.invoke(target, args);
+            System.out.println(<span class="hljs-string">"代理类增强方法"</span>);
+            <span class="hljs-keyword">return</span> invoke;
+         &#125;
+      &#125;);
+      <span class="hljs-keyword">return</span> targetProxy;
+   &#125;
+&#125;</code></pre>
+
+<p>我们自己编写了一个getProxy方法，传入被代理的对象，返回一个代理对象。</p>
+<h3 id="通过newProxyInstance-获得代理对象"><a href="#通过newProxyInstance-获得代理对象" class="headerlink" title="通过newProxyInstance()获得代理对象"></a><strong>通过newProxyInstance()获得代理对象</strong></h3><p>上面的getProxy方法返回代理对象的过程是我们自己写的，通过Proxy类的<strong>newProxyInstance()</strong>可以直接返回代理对象</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">getProxyByProxyMethod</span><span class="hljs-params">(Object target)</span> </span>&#123;
+   <span class="hljs-comment">// 直接返回代理对象</span>
+   <span class="hljs-keyword">return</span> Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), <span class="hljs-keyword">new</span> InvocationHandler() &#123;
+      <span class="hljs-meta">@Override</span>
+      <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+         Object invoke = method.invoke(target, args);
+         System.out.println(<span class="hljs-string">"代理对象增强方法"</span>);
+         <span class="hljs-keyword">return</span> invoke;
+      &#125;
+   &#125;);
+&#125;</code></pre>
+
+
+
+<p><strong>看看newProxyInstance帮我们做了些什么工作</strong></p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Object <span class="hljs-title">newProxyInstance</span><span class="hljs-params">(ClassLoader loader,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      Class&lt;?&gt;[] interfaces,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      InvocationHandler h)</span></span>
+<span class="hljs-function">    <span class="hljs-keyword">throws</span> IllegalArgumentException</span>
+<span class="hljs-function"></span>&#123;
+    
+ 
+    Objects.requireNonNull(h);
+
+    <span class="hljs-comment">// 下面这一段其实就是getProxyClass方法的内部实现</span>
+    <span class="hljs-comment">// --------------------------------------------------------------</span>
+    <span class="hljs-keyword">final</span> Class&lt;?&gt;[] intfs = interfaces.clone();
+    <span class="hljs-keyword">final</span> SecurityManager sm = System.getSecurityManager();
+    <span class="hljs-keyword">if</span> (sm != <span class="hljs-keyword">null</span>) &#123;
+        checkProxyAccess(Reflection.getCallerClass(), loader, intfs);
+    &#125;
+
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">     * Look up or generate the designated proxy class.</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-comment">// 获得接口加上构造函数后的Class对象</span>
+    Class&lt;?&gt; cl = getProxyClass0(loader, intfs);
+    <span class="hljs-comment">// ----------------------------------------------------------------</span>
+    
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">     * Invoke its constructor with the designated invocation handler.</span>
+<span class="hljs-comment">     */</span>
+    
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-keyword">if</span> (sm != <span class="hljs-keyword">null</span>) &#123;
+            checkNewProxyPermission(Reflection.getCallerClass(), cl);
+        &#125;
+
+        <span class="hljs-comment">// 获得构造函数</span>
+        <span class="hljs-keyword">final</span> Constructor&lt;?&gt; cons = cl.getConstructor(constructorParams);
+        
+        <span class="hljs-keyword">final</span> InvocationHandler ih = h;
+        <span class="hljs-keyword">if</span> (!Modifier.isPublic(cl.getModifiers())) &#123;
+            AccessController.doPrivileged(<span class="hljs-keyword">new</span> PrivilegedAction&lt;Void&gt;() &#123;
+                <span class="hljs-function"><span class="hljs-keyword">public</span> Void <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+                    cons.setAccessible(<span class="hljs-keyword">true</span>);
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+                &#125;
+            &#125;);
+        &#125;
+        
+        <span class="hljs-comment">// 返回代理对象</span>
+        <span class="hljs-keyword">return</span> cons.newInstance(<span class="hljs-keyword">new</span> Object[]&#123;h&#125;);
+        
+    &#125; <span class="hljs-keyword">catch</span> (IllegalAccessException|InstantiationException e) &#123;
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InternalError(e.toString(), e);
+    &#125; <span class="hljs-keyword">catch</span> (InvocationTargetException e) &#123;
+        Throwable t = e.getCause();
+        <span class="hljs-keyword">if</span> (t <span class="hljs-keyword">instanceof</span> RuntimeException) &#123;
+            <span class="hljs-keyword">throw</span> (RuntimeException) t;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InternalError(t.toString(), t);
+        &#125;
+    &#125; <span class="hljs-keyword">catch</span> (NoSuchMethodException e) &#123;
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InternalError(e.toString(), e);
+    &#125;
+&#125;</code></pre>
+
+<p>我们自己获取代理对象的步骤是</p>
+<ul>
+<li>通过<strong>getProxyClass</strong>获得<strong>代理对象的Class对象</strong>（接口+对应的构造函数）</li>
+<li>通过Class对象调用得到构造方法</li>
+<li>构造方法去创建实例<ul>
+<li>构造方法传入InvocationHandler实例，需要实现其invoke方法</li>
+</ul>
+</li>
+</ul>
+<p>newProxyInstance帮我们获取代理的步骤和上面类似，只不过Class对象是直接通过<strong>getProxyClass0(loader, intfs)</strong>来获取的。而我们自己封装的代码中，使用的是getProxyClass方法。但是该方法最终还是调用的getProxyClass0(loader, intfs)来获取的Class对象</p>
+<p><strong>getProxyClass方法</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class&lt;?&gt; getProxyClass(ClassLoader loader,
+                                     Class&lt;?&gt;... interfaces)
+    <span class="hljs-keyword">throws</span> IllegalArgumentException
+&#123;
+    <span class="hljs-keyword">final</span> Class&lt;?&gt;[] intfs = interfaces.clone();
+    <span class="hljs-keyword">final</span> SecurityManager sm = System.getSecurityManager();
+    <span class="hljs-keyword">if</span> (sm != <span class="hljs-keyword">null</span>) &#123;
+        checkProxyAccess(Reflection.getCallerClass(), loader, intfs);
+    &#125;
+
+    <span class="hljs-keyword">return</span> getProxyClass0(loader, intfs);
+&#125;</code></pre>
+
+<p><strong>newProxynewInstance方法的前面部分的代码</strong></p>
+<p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201013180152.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="3、如何实现方法增强"><a href="#3、如何实现方法增强" class="headerlink" title="3、如何实现方法增强"></a>3、如何实现方法增强</h2><p>上面的例子确实将被代理对象的方法增强了，但这是如何实现的呢</p>
+<h3 id="InvocationHandler"><a href="#InvocationHandler" class="headerlink" title="InvocationHandler"></a>InvocationHandler</h3><p>我们在获得代理类构造器的时候，传入了InvocationHandler</p>
+<pre><code class="hljs java">Constructor&lt;?&gt; constructor = proxyClazz.getConstructor(InvocationHandler<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;</code></pre>
+
+<p>InvocationHandler是一个<strong>接口，内部只有一个方法invoke</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">InvocationHandler</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span></span>
+<span class="hljs-function">        <span class="hljs-keyword">throws</span> Throwable</span>;
+&#125;</code></pre>
+
+<p>在通过constructor获取代理对象时，newInstance方法需要传入一个invocationHandler的实例，这个实例重写了invoke方法，就是<strong>通过它代理对象增强了被代理对象的方法</strong></p>
+<pre><code class="hljs java">Object targetProxy = constructor.newInstance(<span class="hljs-keyword">new</span> InvocationHandler() &#123;
+      <span class="hljs-meta">@Override</span>
+      <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+         <span class="hljs-comment">// 调用被代理对象的对应方法</span>
+         <span class="hljs-comment">// target 被代理对象</span>
+         <span class="hljs-comment">// args 方法需要的参数</span>
+         Object invoke = method.invoke(target, args);
+         System.out.println(<span class="hljs-string">"代理类增强方法"</span>);
+         <span class="hljs-keyword">return</span> invoke;
+      &#125;
+   &#125;);
+   <span class="hljs-keyword">return</span> targetProxy;
+&#125;</code></pre>
+
+
+
+<h3 id="图解-1"><a href="#图解-1" class="headerlink" title="图解"></a><strong>图解</strong></h3><p><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201013160426.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>调用代理对象的方法时，<strong>实际上调用的是InvocationHandler的invoke方法</strong>，这个方法内部不仅调用了被代理对象的方法，还可以增加其他功能</p>
+<h2 id="4、为什么必须实现接口"><a href="#4、为什么必须实现接口" class="headerlink" title="4、为什么必须实现接口"></a>4、为什么必须实现接口</h2><p>通过</p>
+<pre><code class="hljs java">lawyerProxy.getClass().getSuperclass()</code></pre>
+
+<p>可以获得代理对象的父类，可以看到其父类为</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">java</span>.<span class="hljs-title">lang</span>.<span class="hljs-title">reflect</span>.<span class="hljs-title">Proxy</span></span></code></pre>
+
+<p>也就是无论是什么<strong>代理类，都会继承自Proxy</strong>，而Java又是<strong>单继承</strong>的，所以想要被代理对象与代理对象产生联系，就只能通过接口来实现了</p>
+<h1 id="四、基于CGLib的动态代理"><a href="#四、基于CGLib的动态代理" class="headerlink" title="四、基于CGLib的动态代理"></a>四、基于CGLib的动态代理</h1><p>Java动态代理是<strong>面向接口</strong>的代理模式，如果没有接口，但是想要去实现动态代理，就需要用到CGLib来进行动态代理了</p>
+<p>CGLib是一个强大、高性能的Code生产类库，可以实现运行期动态扩展java类</p>
+<h2 id="1、使用CGLib实现动态代理"><a href="#1、使用CGLib实现动态代理" class="headerlink" title="1、使用CGLib实现动态代理"></a>1、使用CGLib实现动态代理</h2><p><strong>被代理的类</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XiaoWen</span> </span>&#123;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepareApp</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"准备仲裁申请"</span>);
+   &#125;
+
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">collectEvi</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"收集证据"</span>);
+   &#125;
+
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">debate</span><span class="hljs-params">()</span> </span>&#123;
+      System.out.println(<span class="hljs-string">"开庭辩论"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>自定义拦截器实现MethodInterceptor接口</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LawyerInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MethodInterceptor</span> </span>&#123;
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">intercept</span><span class="hljs-params">(Object o, Method method, Object[] objects, MethodProxy methodProxy)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+      <span class="hljs-comment">// 前置增强</span>
+      System.out.println(<span class="hljs-string">"律师给出建议"</span>);
+
+      <span class="hljs-comment">// 被代理类执行的方法（被增强的方法）</span>
+      <span class="hljs-comment">// 注意这里是调用invokeSuper而不是invoke，否则死循环;</span>
+      <span class="hljs-comment">// methodProxy.invokeSuper执行的是原始类的方法;</span>
+      <span class="hljs-comment">// method.invoke执行的是子类的方法;</span>
+      Object invoke = methodProxy.invokeSuper(o, objects);
+
+      <span class="hljs-comment">// 后置增强</span>
+      System.out.println(<span class="hljs-string">"律师帮忙"</span>);
+
+      <span class="hljs-keyword">return</span> invoke;
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>使用Enhancer创建代理对象</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+      <span class="hljs-comment">// 创建增强器</span>
+      Enhancer enhancer = <span class="hljs-keyword">new</span> Enhancer();
+
+      <span class="hljs-comment">// 传入被代理的Class对象（作为代理对象的父类）</span>
+      enhancer.setSuperclass(XiaoWen<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+      <span class="hljs-comment">// 设置回调函数，传入自定义的拦截器</span>
+      enhancer.setCallback(<span class="hljs-keyword">new</span> LawyerInterceptor());
+
+      <span class="hljs-comment">// 获取代理对象</span>
+      XiaoWen proxy = (XiaoWen) enhancer.create();
+
+      System.out.println(<span class="hljs-string">"小文委托律师帮忙进行劳动仲裁"</span>);
+      System.out.println(<span class="hljs-string">"-------第一步-------"</span>);
+      proxy.prepareApp();
+
+      System.out.println(<span class="hljs-string">"-------第二步-------"</span>);
+      proxy.collectEvi();
+
+      System.out.println(<span class="hljs-string">"-------第三步-------"</span>);
+      proxy.debate();
+      System.out.println();
+
+      System.out.println(<span class="hljs-string">"仲裁结束"</span>);
+   &#125;
+&#125;</code></pre>
+
+
+
+<p><strong>运行结果</strong></p>
+<pre><code class="hljs brainfuck"><span class="hljs-comment">小文委托律师帮忙进行劳动仲裁</span>
+<span class="hljs-comment"></span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">第一步</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-comment">律师给出建议</span>
+<span class="hljs-comment">准备仲裁申请</span>
+<span class="hljs-comment">律师帮忙</span>
+<span class="hljs-comment"></span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">第二步</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-comment">律师给出建议</span>
+<span class="hljs-comment">收集证据</span>
+<span class="hljs-comment">律师帮忙</span>
+<span class="hljs-comment"></span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">第三步</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-comment">律师给出建议</span>
+<span class="hljs-comment">开庭辩论</span>
+<span class="hljs-comment">律师帮忙</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">仲裁结束</span></code></pre>
+
+
+
+<h2 id="2、CGLib实现原理"><a href="#2、CGLib实现原理" class="headerlink" title="2、CGLib实现原理"></a>2、CGLib实现原理</h2><p>CGLib可以为没有实现接口的类创建代理类。其原理是CGLib底层使用了ASM框架，该框架可以通过修改字节码，来创建一个被代理类的子类，也就是代理类。并在子类中采用方法拦截的技术<strong>拦截所有父类方法的调用，顺势织入横切逻辑</strong>。这种思想符合<strong>里氏替换原则</strong>，即子类可以扩展父类的功能，但是不能改变父类原有的功能。</p>
+<h3 id="代理类的父类"><a href="#代理类的父类" class="headerlink" title="代理类的父类"></a>代理类的父类</h3><p>就上面的例子，我们通过</p>
+<pre><code class="hljs java">proxy.getClass().getSuperclass();</code></pre>
+
+<p>来获取代理类的父类，可以看到其父类是</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">com</span>.<span class="hljs-title">nyima</span>.<span class="hljs-title">study</span>.<span class="hljs-title">day01</span>.<span class="hljs-title">XiaoWen</span></span></code></pre>
+
+<p>也就是我们的被代理类，这也从一定程度上说明自定义拦截器在调用被拦截对象的方法时，需要调用</p>
+<pre><code class="hljs java">Object invoke = methodProxy.invokeSuper(o, objects);</code></pre>
+
+
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/08/Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis设计与实现</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/26/%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">
+                        <span class="hidden-mobile">集合源码</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      function loadDisqus() {
+        var disqus_config = function () {
+          this.page.url = 'http://nyimac.gitee.io/2020/11/03/代理模式/';
+          this.page.identifier = '/2020/11/03/代理模式/';
+        };
+        (function () {
+          var d = document,
+            s = d.createElement('script');
+          s.src = '//' + '' + '.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      }
+      createObserver(loadDisqus, 'disqus_thread');
+    </script>
+    <noscript>Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments powered by Disqus.</a>
+    </noscript>
+  </div>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "代理模式&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?ba41ec605b9b7320e120275462e4035b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+</body>
+</html>
